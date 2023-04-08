@@ -5,6 +5,16 @@ if [ "$(id -u)" -ne 0 ]; then
   exit 1
 fi
 
+UBUNTU_VERSION=$(cat /etc/issue | awk '{print $2}')
+MAJOR_VERSION=$(echo "$UBUNTU_VERSION" | awk -F'.' '{print $1}')
+
+if [ "$MAJOR_VERSION" -ge 22 ]; then
+  echo -e "\033[32mUbuntu version is 22.04 or higher.\033[0m"
+else
+  echo -e "\033[31mUbuntu version is less than 22.04.\033[0m"
+  exit 1
+fi
+
 wget https://www.openssl.org/source/openssl-3.0.8.tar.gz
 tar -xvf openssl-3.0.8.tar.gz
 cd openssl-3.0.8
